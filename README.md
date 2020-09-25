@@ -30,6 +30,7 @@ make
 By default, obfusX performs via perturbation. To perform wire lifting instead, add `-DLIFT` to the compiler flag by uncommenting the relevant line in `CMakeLists.txt` before compiling.
 
 ## Decompress superblue designs:
+
 Due to large size, we compressed each routed superblue design into a tarball. To decompress, use, e.g.
 ```
 cd circuits
@@ -37,7 +38,7 @@ tar xjvf superblue1.tar.bz2
 ```
 
 ## Launch:
------
+
 The main execuatable `main` takes the following parameters in the format of `./main <name1> <value1> <name2> <value2> ...`:  
 `-design`: an identifier of the design, could be any string (required).  
 `-layer`: the split layer. E.g. `4` for splitting between M4 and M5 (required).  
@@ -52,7 +53,9 @@ The main execuatable `main` takes the following parameters in the format of `./m
 `-outputRT`: (optional) file to write the obfuscated design in RT (for ISPD '11 benchmark).  
 `-shap`: (optional) path to cached initial SHAP values (for ISPD '11 benchmark'). If omitted, initial SHAP values will be calculated and cached to a file with name ending in `.shap` for later use.  
 `-outputCSV`: (optional) file to write the information of all v-pins before and after obfuscation.  
+
 -----
+
 Minimal `-maxLayer` values for ISCAS '85 designs with routed layouts in this repo (from [seth-tamu/network_flow_attack](https://github.com/seth-tamu/network_flow_attack)):
 |Design|Value|
 |---|---|
@@ -62,7 +65,9 @@ Minimal `-maxLayer` values for ISCAS '85 designs with routed layouts in this rep
 |`c5315` | 8 |
 |`c6288` | 6 |
 |`c7552` | 7 |
+
 -----
+
 **Examples:**
 ISCAS '85 design:
 ```
