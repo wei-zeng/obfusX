@@ -8,7 +8,7 @@ The code is authored by Wei Zeng, based on ISPD'11 benchmark parser [here](https
 ## File description:
 `circuits`: contains routed ISCAS'85 designs from [seth-tamu/network_flow_attack](https://github.com/seth-tamu/network_flow_attack), and routed ISPD'11 designs with [NCTU-GR 2.0](https://people.cs.nctu.edu.tw/~whliu/NCTU-GR.htm) in Regular mode. We use [UMich-SimPnR](http://www.ispd.cc/contests/11/ISPD2011_Pl_Files/UMich_SimPLR.tar.bz2) placement for `superblue1`/`5`/`12`/`18` and [NTU-Radiant](http://www.ispd.cc/contests/11/ISPD2011_Pl_Files/NTU_Radiant.tar.bz2) placement for `superblue10`, so that all five designs can be routed overflow-free.  
 `CMakeLists.txt`: Installation script for CMake. 
-`ISCAS85_JSON`, `ISPD11_JSON`: converted JSON files of trained Bagging model from Weka. They are trained with v-pin pairs from other designs in the same benchmark suite with the same split layer. Available for split layers 3 and 4 for ISCAS '85 designs, and layers 6 and 8 for ISPD '11 designs.  
+`ISCAS85_JSON`, `ISPD11_JSON`: converted JSON files of trained Bagging model from Weka. They are trained with v-pin pairs from other designs in the same benchmark suite with the same split layer. Available for split layers 3 and 4 for ISCAS '85 designs, and layers 4 and 6 for ISPD '11 designs.  
 `lefdef_util`: LEF/DEF parser and writer.  
 `src`: Source files related to ObfusX and ISPD'11 benchmark parser.  
 `README.md`: This readme file.  
