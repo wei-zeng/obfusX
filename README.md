@@ -37,6 +37,7 @@ tar xjvf superblue1.tar.bz2
 ```
 
 ## Launch:
+-----
 The main execuatable `main` takes the following parameters in the format of `./main <name1> <value1> <name2> <value2> ...`:  
 `-design`: an identifier of the design, could be any string (required).  
 `-layer`: the split layer. E.g. `4` for splitting between M4 and M5 (required).  
