@@ -1,0 +1,55 @@
+Usage:
+./readBenchmark -design <design_name> -auxFile <aux_file> -rtFile <routing_solution_file>
+
+The .aux file should contain a list of the .nodes, .nets, .wts, .pl, .scl, .shapes, and .route files for the benchmark. These files should all be located in the same directory as the aux file. 
+
+Note: If you want to use a placement solution, you will have to replace the .pl file with the solution file and update the file name in the .aux file.
+
+Note: The .route file and -rtFile are not the same; the .route file is provided in the benchmark and gives information for routing while the -rtFile is the actual global routing solution.
+
+The ISPD 2011 benchmarks in this format can be found at http://www.ispd.cc/contests/11/ispd2011_contest.html#head-designs.
+
+A description of the format of these files can be found at http://www.ispd.cc/contests/11/other_files/Benchmark_Format.pdf.
+
+
+
+This source code can be used as a starting point for creating a split manufacturing security technique. It provides the code to read a benchmark and initialize some data structures that are helpful for this task. Below is a description of each file included in the source code.
+
+Description of each file:
+
+main.cpp
+	Calls all the necessary methods to read the design and initialize the data structures.
+	As is, this code just reads in the benchmarks, it does not perform any routing or blockage insertion.
+
+parser.cpp/.h
+	Reads the input files and calls functions in layoutDB to populate the layout data structure.
+	Also has functions for exporting designs in the same format that was inputted. 
+
+layoutDB.cpp/.h
+	Contains the data structure for the layout of the design.
+	It holds information about how the design is structured as well as what type of elements are in it.
+	The functions in this file are for setting and accessing the attributes of the layout.
+
+routingDB.cpp/.h
+	This is the data structure for the routing information in the design.
+	It contains a variety of different functions to initialize the routing tree and access the information about the edges and vias within the design.
+	Functions in this file can also be used to create blockages and update the edge demands.
+
+baseDB.h
+	This file contains a variety of useful base data structures that are used to help organize the routingDB data structure.
+	This includes all the structures for Gcells, edges, wires, etc.
+	It contains the necessary functions for accessing the different attributes for these data structures as well.
+
+g_edges.cpp
+	Contains all the useful global edge functions.
+	Used to initialize the edges, get information about the edges, and update their blockage information.
+	It also contains some methods for dealing with global vias as well.
+
+nets.h
+	Contains the net and Gnet data structures.
+
+nodes.h
+	Contains the node data structure.
+
+vias.h
+	Contains the via data structure.
