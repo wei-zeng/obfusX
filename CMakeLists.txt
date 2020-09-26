@@ -4,7 +4,7 @@ file(GLOB SRCS src/*.cpp lefdef_util/src/*/*.cpp)
 project (ObfusX)
 # Uncomment the following line to use wire lifting instead of via perturbation
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DLIFT")
-set(LDFLAGS "-no-pie")
+set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAG} "-no-pie")
 find_package (Python3 COMPONENTS Development)
 add_executable(main ${SRCS})
 
