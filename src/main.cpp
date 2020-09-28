@@ -70,7 +70,7 @@ void writeSHAP(string fileName,
 	}
 	fout.close();
 }
-
+#define VERSION "v1.0.200927"
 int main(int argc, char **argv) {
 	char *designName = nullptr;
 	char *auxFile = nullptr;
@@ -91,9 +91,9 @@ int main(int argc, char **argv) {
 	int maxLayer = 0;
 	size_t maxIter = 0;
 #ifdef LIFT
-	cout << "ObfusX with wire lifting" << endl;
+	cout << "ObfusX " << VERSION << "\nCompiled with -DLIFT\nPerforming wire lifting\n====================" << endl;
 #else
-	cout << "ObfusX with via perturbation" << endl;
+	cout << "ObfusX " << VERSION << "\nCompiled without -DLIFT\nPerforming via perturbation\n====================" << endl;
 #endif
 	// Read input arguments
 	while (i < argc) {
