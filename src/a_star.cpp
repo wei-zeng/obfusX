@@ -218,13 +218,22 @@ std::pair<double, vector<Vertex>> RoutingDB_DR::a_star(Graph &graph3D,
 		// vertices to the solution path.
 		//printf("Path found: ");
 		//isFeasible = true;
-		double wl = dist_pmap[fg.goal];
+		double wl = 0;
 		for (Vertex u = fg.goal; u != s; u = predecessor[u]) {
 			//	printf("(%d,%d,%d)-", graph3D[u].x, graph3D[u].y, graph3D[u].z);
 			// auto r = edge(u, predecessor[u], graph3D);
 			// assert(r.second);
 			vecPath.push_back(u);
 			//	graph3D[r.first].isPath = true;
+			if (graph3D[u].z == graph3D[predecessor[u]].z) {
+				wl += fabs(graph3D[u].x - graph3D[predecessor[u]].x) + 
+					fabs(graph3D[u].y - graph3D[predecessor[u]].y);
+			} else {
+				int z = std::min(graph3D[u].z, graph3D[predecessor[u]].z);
+				wl += fabs(graph3D[u].x - graph3D[predecessor[u]].x) + 
+					fabs(graph3D[u].y - graph3D[predecessor[u]].y) +
+					Gcell(0, 0, z).viaWeights[z];
+			}
 		}
 		vecPath.push_back(s);
 		// printf("(%d,%d,%d)\n", graph3D[s].x, graph3D[s].y, graph3D[s].z);
@@ -1401,8 +1410,21 @@ std::tuple<double, vector<int>, vector<int>, int,
 			 cerr << "Edge: " << g[e.m_source].id << " " << g[e.m_target].id
 			 << endl;
 			 }*/
-
-			Vertex start = uMapPtInGraph.at(startGcell);
+			
+			Vertex start;
+			if (uMapPtInGraph.count(startGcell) == 0) {
+				for (int y = startGcell._y - extValue[startGcell._z]; y <= startGcell._y + extValue[startGcell._z]; y += 10) {
+					for (int x = startGcell._x - extValue[startGcell._z]; x <= startGcell._x + extValue[startGcell._z]; x += 10) {
+						if (uMapPtInGraph.count(Gcell(x, y, startGcell._z))) {
+							startGcell = Gcell(x, y, startGcell._z);
+							break;
+						}
+					}
+					if (uMapPtInGraph.count(startGcell))
+						break;
+				}
+			}
+			start = uMapPtInGraph.at(startGcell);
 			std::unordered_set<Vertex> goals = build_goals(realGoalGrids, xlLim,
 					xuLim, ylLim, yuLim, zlLim, zuLim, uMapPtInGraph, layout,
 					g);
@@ -1523,8 +1545,7 @@ std::tuple<double, vector<int>, vector<int>, int,
 			 << endl;
 			 }*/
 
-			Vertex start = uMapPtInGraph.at(
-					Gcell(vp.xCoord, vp.yCoord, vp.zCoord));
+			Vertex start = uMapPtInGraph.at(startGcell);
 			std::unordered_set<Vertex> goals = build_goals(realGoalGrids, xlLim,
 					xuLim, ylLim, yuLim, zlLim, zuLim, uMapPtInGraph, layout,
 					g);
@@ -1981,7 +2002,20 @@ std::tuple<double, vector<int>, vector<int>, int> RoutingDB_DR::rerouteNet(
 			std::tie(g, uMapPtInGraph) = build_graph(vp1.gnetID, bannedPts,
 					xlLim, xuLim, ylLim, yuLim, zlLim, zuLim, layout, lift,
 					liftPenalty, splitLayer, vp1, matchingVpin);
-			Vertex start = uMapPtInGraph.at(startGcell);
+			Vertex start;
+			if (uMapPtInGraph.count(startGcell) == 0) {
+				for (int y = startGcell._y - extValue[startGcell._z]; y <= startGcell._y + extValue[startGcell._z]; y += 10) {
+					for (int x = startGcell._x - extValue[startGcell._z]; x <= startGcell._x + extValue[startGcell._z]; x += 10) {
+						if (uMapPtInGraph.count(Gcell(x, y, startGcell._z))) {
+							startGcell = Gcell(x, y, startGcell._z);
+							break;
+						}
+					}
+					if (uMapPtInGraph.count(startGcell))
+						break;
+				}
+			}
+			start = uMapPtInGraph.at(startGcell);
 			std::unordered_set<Vertex> goals = build_goals(realGoalGrids, xlLim,
 					xuLim, ylLim, yuLim, zlLim, zuLim, uMapPtInGraph, layout,
 					g);

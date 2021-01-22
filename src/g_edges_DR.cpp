@@ -99,17 +99,21 @@ tuple<vector<unsigned>, vector<unsigned>> RoutingDB_DR::cntEdgesXY(
 			numEdgesX[z] = numTracksX[z] - 1;
 			numEdgesY[z] = 0;
 			for (unsigned j = 0; j < numTracksX[z]; ++j) {
-				for (unsigned k = 0; k < numTracksY[z + 1]; ++k) {
-					x = trackOffsetX[z] + j * trackWidth[z];
-					y = trackOffsetY[z + 1] + k * trackHeight[z + 1];
-					auto res = _grids[z].insert(Gcell(round(x), round(y), z));
-					_occupiedGnetId[z][Gcell(round(x), round(y), z)] = -1;
+				if (z < numLayers - 1) {
+					for (unsigned k = 0; k < numTracksY[z + 1]; ++k) {
+						x = trackOffsetX[z] + j * trackWidth[z];
+						y = trackOffsetY[z + 1] + k * trackHeight[z + 1];
+						auto res = _grids[z].insert(Gcell(round(x), round(y), z));
+						_occupiedGnetId[z][Gcell(round(x), round(y), z)] = -1;
+					}
 				}
-				for (unsigned k = 0; k < numTracksY[z - 1]; ++k) {
-					x = trackOffsetX[z] + j * trackWidth[z];
-					y = trackOffsetY[z - 1] + k * trackHeight[z - 1];
-					auto res = _grids[z].insert(Gcell(round(x), round(y), z));
-					_occupiedGnetId[z][Gcell(round(x), round(y), z)] = -1;
+				if (z > 0) {
+					for (unsigned k = 0; k < numTracksY[z - 1]; ++k) {
+						x = trackOffsetX[z] + j * trackWidth[z];
+						y = trackOffsetY[z - 1] + k * trackHeight[z - 1];
+						auto res = _grids[z].insert(Gcell(round(x), round(y), z));
+						_occupiedGnetId[z][Gcell(round(x), round(y), z)] = -1;
+					}
 				}
 			}
 		}

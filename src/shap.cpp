@@ -9,9 +9,27 @@
 
 using namespace std;
 
+PyObject* vector_to_nparray(const vector<double>& vec, int type_num = NPY_DOUBLE){
+   if (!vec.empty()) {
+       size_t nRows = vec.size();
+       npy_intp dims[2] = {1, nRows};
+       PyArrayObject* vec_array = (PyArrayObject*) PyArray_SimpleNew(2, dims, type_num);
+	   double *vec_array_pointer = (double*) PyArray_DATA(vec_array);
+       copy(vec.begin(), vec.end(), vec_array_pointer);
+       return (PyObject*) vec_array;
+   } else {
+      npy_intp dims[2] = {1, 0};
+      return (PyObject*) PyArray_ZEROS(2, dims, NPY_DOUBLE, 0);
+   }
+}
+
+int init_numpy() {
+	import_array();
+}
+
 void SHAP::init() {
 	Py_Initialize();
-
+	init_numpy();
 	PyObject *module = PyImport_ImportModule("shap");
 	assert(module != NULL);
 
@@ -120,29 +138,27 @@ void SHAP::read_model(const std::string &jsonFile) {
 double SHAP::base_value() const {
 	PyObject* expected_value = PyObject_GetAttrString(_expl, "expected_value");
 	assert(expected_value != NULL);
-	return 1 - PyFloat_AsDouble(expected_value);
+	double ret = 1 - PyFloat_AsDouble(expected_value);
+	Py_DECREF(expected_value);
+	return ret;
 }
 
 vector<double> SHAP::eval(const vector<double> &featureVec) const {
 	vector<double> sh_value_vec;
-	PyObject *list = PyList_New(featureVec.size());
-	for (size_t i = 0; i < featureVec.size(); i++) {
-		PyList_SetItem(list, i, PyFloat_FromDouble(featureVec[i]));
-	}
-	PyObject *args = PyTuple_Pack(2, PyLong_FromLong(1),
-			PyLong_FromLong(featureVec.size()));
-	PyObject *np_array = PyObject_CallObject(
-			PyObject_GetAttrString(
-					PyObject_CallObject(_np_array_class, PyTuple_Pack(1, list)),
-					"reshape"), args);
+	PyObject *np_array = vector_to_nparray(featureVec);
+	PyObject *arg_tmp4 = PyTuple_Pack(1, np_array);
 	PyObject *sh_array_obj = PyObject_CallObject(_expl_shap_values_class,
-			PyTuple_Pack(1, np_array));
+			arg_tmp4);
 	for (size_t i = 0; i < featureVec.size(); i++) {
 		PyObject *sh_value_obj = PyArray_GETITEM(sh_array_obj,
 				PyArray_GETPTR2(sh_array_obj, 0, i));
 		assert(sh_value_obj != NULL);
 		sh_value_vec.push_back(-PyFloat_AsDouble(sh_value_obj));
+		Py_DECREF(sh_value_obj);
 	}
+	Py_DECREF(arg_tmp4);
+	Py_DECREF(np_array);
+	Py_DECREF(sh_array_obj);
 	return sh_value_vec;
 }
 

@@ -469,7 +469,7 @@ void MyDefWriter::write_nets(def::Def *def, const RoutingDB_DR &routingDB) {
 							int y = gWire._y;
 							for (int x = min(gWire._x, pWire._x);
 									x <= max(gWire._x, pWire._x); x += 10) {
-								if (gnet._gPins[gWire._realPinId]._shape.coversPoint(
+								if (gnet._gPins[pWire._realPinId]._shape.coversPoint(
 										x, y, extValue[pWire._z])) {
 									//gx, gy -- px, gy
 									if (gWire._x != x) {
