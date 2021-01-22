@@ -70,7 +70,7 @@ void writeSHAP(string fileName,
 	}
 	fout.close();
 }
-#define VERSION "v1.0.200927"
+#define VERSION "v1.1.210121"
 int main(int argc, char **argv) {
 	char *designName = nullptr;
 	char *auxFile = nullptr;
