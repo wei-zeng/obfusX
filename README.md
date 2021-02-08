@@ -1,9 +1,13 @@
 # ObfusX
 This is the source code for our ASPDAC '21 paper. Please kindly cite it if it is helpful for your academic research.
 
-W. Zeng, A. Davoodi, and R. O. Topaloglu, "ObfusX: Routing Obfuscation with Explanatory Analysis of a Machine Learning Attack," in *Proc. 26th IEEE/ACM Asia and South Pacific Design Automation Conference (ASP-DAC)*, Jan. 2021.
+[W. Zeng, A. Davoodi, and R. O. Topaloglu, "ObfusX: Routing Obfuscation with Explanatory Analysis of a Machine Learning Attack," in *Proc. 26th IEEE/ACM Asia and South Pacific Design Automation Conference (ASP-DAC)*, Jan. 2021.](https://dl.acm.org/doi/10.1145/3394885.3431600)
 
 The code is authored by Wei Zeng, based on ISPD'11 benchmark parser [here](https://jonathoncmagana.github.io/magana/Parser/), and LEF/DEF parser and writer from [jinwookjungs/lefdef_util](https://github.com/jinwookjungs/lefdef_util).
+
+The code is still in development. Bugs/issues may be found and fixed at any time.
+
+**Disclaimer**: THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## File description:
 `circuits`: contains routed ISCAS'85 designs from [seth-tamu/network_flow_attack](https://github.com/seth-tamu/network_flow_attack), and routed ISPD'11 designs with [NCTU-GR 2.0](https://people.cs.nctu.edu.tw/~whliu/NCTU-GR.htm) in Regular mode. We use [UMich-SimPnR](http://www.ispd.cc/contests/11/ISPD2011_Pl_Files/UMich_SimPLR.tar.bz2) placement for `superblue1`/`5`/`12`/`18` and [NTU-Radiant](http://www.ispd.cc/contests/11/ISPD2011_Pl_Files/NTU_Radiant.tar.bz2) placement for `superblue10`, so that all five designs can be routed overflow-free.  
